@@ -46,27 +46,28 @@ export struct TimerPage {
         // 播放/暂停按钮
         Button() {
           if (this.pomodoro.isRunning) {
-            // 暂停：两条竖线
-            Row({ space: 5 }) {
-              Rect()
-                .width(4)
-                .height(18)
-                .fill('#FFFFFF')
-                .borderRadius(2)
-              Rect()
-                .width(4)
-                .height(18)
-                .fill('#FFFFFF')
-                .borderRadius(2)
-            }
-            .justifyContent(FlexAlign.Center)
-            .alignItems(VerticalAlign.Center)
+            Row({ space: 5 })
+              .width(18)
+              .height(20)
+              .justifyContent(FlexAlign.Center)
+              .alignItems(VerticalAlign.Center)
+              .children() {
+                Rect()
+                  .width(4)
+                  .height(18)
+                  .fill('#FFFFFF')
+                  .borderRadius(2)
+                Rect()
+                  .width(4)
+                  .height(18)
+                  .fill('#FFFFFF')
+                  .borderRadius(2)
+              }
           } else {
-            // 播放：三角形
             Polygon()
-              .width(0)
-              .height(0)
-              .points([[0, 0], [0, 18], [16, 9]])
+              .width(20)
+              .height(20)
+              .points([[2, 0], [2, 20], [18, 10]])
               .fill('#FFFFFF')
           }
         }
@@ -79,11 +80,11 @@ export struct TimerPage {
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(VerticalAlign.Center)
-      .margin({ bottom: 16 })
+      .margin({ bottom: 4 })
     }
     .width('100%')
     .height('100%')
-    .padding({ top: 48, bottom: 56, left: 28, right: 28 })
+    .padding({ top: 48, bottom: 64, left: 28, right: 28 })
     .justifyContent(FlexAlign.SpaceBetween)
   }
 
