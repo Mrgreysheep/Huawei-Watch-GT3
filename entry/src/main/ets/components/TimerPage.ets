@@ -31,11 +31,12 @@ export struct TimerPage {
         .width('100%')
 
       // 控制按钮
-      Row({ space: 24 }) {
+      Row({ space: 20 }) {
+        // 重置
         Button() {
-          Text('')
-            .fontSize(18)
-            .fontColor('#636366')
+          Text('↻')
+            .fontSize(22)
+            .fontColor('#8E8E93')
         }
         .type(ButtonType.Circle)
           .width(44)
@@ -44,11 +45,27 @@ export struct TimerPage {
           .borderRadius(22)
           .onClick(() => this.handleReset())
 
+        // 开始/暂停
         Button() {
-          Text(this.pomodoro.isRunning ? '' : '')
-            .fontSize(24)
-            .fontColor('#FFFFFF')
-            .fontWeight(FontWeight.Bold)
+          if (this.pomodoro.isRunning) {
+            Row({ space: 4 }) {
+              Text('')
+                .fontSize(22)
+                .fontColor('#FFFFFF')
+                .fontWeight(FontWeight.Bold)
+              Text('')
+                .fontSize(22)
+                .fontColor('#FFFFFF')
+                .fontWeight(FontWeight.Bold)
+            }
+            .justifyContent(FlexAlign.Center)
+            .alignItems(VerticalAlign.Center)
+          } else {
+            Text('▶')
+              .fontSize(20)
+              .fontColor('#FFFFFF')
+              .fontWeight(FontWeight.Bold)
+          }
         }
         .type(ButtonType.Circle)
           .width(56)
@@ -59,11 +76,11 @@ export struct TimerPage {
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(VerticalAlign.Center)
-      .margin({ bottom: 8 })
+      .margin({ bottom: 12 })
     }
     .width('100%')
     .height('100%')
-    .padding({ top: 48, bottom: 42, left: 28, right: 28 })
+    .padding({ top: 48, bottom: 56, left: 28, right: 28 })
   }
 
   private getModeName(): string {
