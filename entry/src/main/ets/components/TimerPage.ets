@@ -12,7 +12,7 @@ export struct TimerPage {
 
   build() {
     Column() {
-      // 模式名称
+      // 顶部标签
       Text(this.getModeName())
         .fontSize(15)
         .fontColor(this.getModeColor())
@@ -20,23 +20,29 @@ export struct TimerPage {
         .letterSpacing(2)
         .margin({ top: 8 })
 
-      // 时间显示
+      // 中间时间（占据所有剩余空间，自动垂直居中）
       Text(this.pomodoro.formattedTime)
         .fontSize(64)
         .fontColor('#FFFFFF')
         .fontWeight(FontWeight.Bold)
         .fontFamily('HarmonyOS Sans')
-        .layoutWeight(1)
-        .textAlign(TextAlign.Center)
-        .width('100%')
+        .expand()
 
-      // 控制按钮
+      // 底部按钮
       Row({ space: 20 }) {
-        // 重置
+        // 重置按钮
         Button() {
-          Text('↻')
-            .fontSize(22)
-            .fontColor('#8E8E93')
+          Stack() {
+            Arc({ start: 30, end: 330 })
+              .width(22)
+              .height(22)
+              .strokeWidth(2.5)
+              .fill(false)
+              .stroke('#8E8E93')
+              .strokeLineCap(LineCapStyle.Round)
+          }
+          .width(22)
+          .height(22)
         }
         .type(ButtonType.Circle)
           .width(44)
@@ -45,26 +51,31 @@ export struct TimerPage {
           .borderRadius(22)
           .onClick(() => this.handleReset())
 
-        // 开始/暂停
+        // 播放/暂停按钮
         Button() {
           if (this.pomodoro.isRunning) {
-            Row({ space: 4 }) {
-              Text('')
-                .fontSize(22)
-                .fontColor('#FFFFFF')
-                .fontWeight(FontWeight.Bold)
-              Text('')
-                .fontSize(22)
-                .fontColor('#FFFFFF')
-                .fontWeight(FontWeight.Bold)
+            // 暂停：两条竖线
+            Row({ space: 5 }) {
+              Rect()
+                .width(4)
+                .height(18)
+                .fill('#FFFFFF')
+                .borderRadius(2)
+              Rect()
+                .width(4)
+                .height(18)
+                .fill('#FFFFFF')
+                .borderRadius(2)
             }
             .justifyContent(FlexAlign.Center)
             .alignItems(VerticalAlign.Center)
           } else {
-            Text('▶')
-              .fontSize(20)
-              .fontColor('#FFFFFF')
-              .fontWeight(FontWeight.Bold)
+            // 播放：三角形
+            Polygon()
+              .width(0)
+              .height(0)
+              .points([[0, 0], [0, 18], [16, 9]])
+              .fill('#FFFFFF')
           }
         }
         .type(ButtonType.Circle)
@@ -76,11 +87,12 @@ export struct TimerPage {
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(VerticalAlign.Center)
-      .margin({ bottom: 12 })
+      .margin({ bottom: 16 })
     }
     .width('100%')
     .height('100%')
     .padding({ top: 48, bottom: 56, left: 28, right: 28 })
+    .justifyContent(FlexAlign.SpaceBetween)
   }
 
   private getModeName(): string {
