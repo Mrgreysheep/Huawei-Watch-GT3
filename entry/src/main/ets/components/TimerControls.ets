@@ -8,37 +8,32 @@ export struct TimerControls {
   onReset: () => void = () => {}
 
   build() {
-    Row({ space: 12 }) {
-      // 重置按钮
+    Row({ space: 20 }) {
+      // 重置
       Button() {
         Text('')
-          .fontSize(18)
-          .fontColor('#FFFFFF')
+          .fontSize(20)
+          .fontColor('#8E8E93')
       }
       .type(ButtonType.Circle)
       .width(44)
       .height(44)
-      .backgroundColor('#33FFFFFF')
+      .backgroundColor('#2C2C2E')
       .borderRadius(22)
       .onClick(() => this.onReset())
 
-      // 开始/暂停按钮
+      // 播放/暂停
       Button() {
         Text(this.isPlaying ? '' : '')
-          .fontSize(22)
+          .fontSize(24)
           .fontColor('#FFFFFF')
+          .fontWeight(FontWeight.Bold)
       }
       .type(ButtonType.Circle)
       .width(56)
       .height(56)
-      .backgroundColor(this.isPlaying ? '#FF6B6B' : '#4ECDC4')
+      .backgroundColor(this.isPlaying ? '#FF6B6B' : '#30D158')
       .borderRadius(28)
-      .shadow({
-        radius: 12,
-        color: this.isPlaying ? '#66FF6B6B' : '#664ECDC4',
-        offsetX: 0,
-        offsetY: 2
-      })
       .onClick(() => {
         if (this.isPlaying) {
           this.onPause()
@@ -48,6 +43,7 @@ export struct TimerControls {
       })
     }
     .justifyContent(FlexAlign.Center)
+    .alignItems(VerticalAlign.Center)
   }
 
   private get isPlaying(): boolean {

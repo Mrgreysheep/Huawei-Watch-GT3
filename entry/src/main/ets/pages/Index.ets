@@ -1,16 +1,20 @@
-import { PomodoroModel, TimerState, TimerMode } from '../model/PomodoroState'
+import { PomodoroModel, TimerMode, TimerState } from '../model/PomodoroState'
 import { TimerCircle } from '../components/TimerCircle'
 import { TimerControls } from '../components/TimerControls'
 import { SessionInfo } from '../components/SessionInfo'
 import vibrator from '@ohos.vibrator'
+import { display } from '@kit.BasicServicesKit'
 
 @Entry
 @Component
 struct Index {
   @State pomodoro: PomodoroModel = new PomodoroModel()
-  @State timerInterval: number = -1
+  @State screenWidth: number = 0
+  private timerInterval: number = -1
 
   aboutToAppear(): void {
+    const displayClass = display.getDefaultDisplaySync()
+    this.screenWidth = displayClass.width
     this.startTimer()
   }
 
@@ -21,22 +25,20 @@ struct Index {
   build() {
     Scroll() {
       Column() {
-        // 模式切换按钮
-        Row({ space: 8 }) {
-          this.ModeButton('专注', TimerMode.WORK)
-          this.ModeButton('短休', TimerMode.SHORT_BREAK)
-          this.ModeButton('长休', TimerMode.LONG_BREAK)
+        // 模式切换
+        Row({ space: 6 }) {
+          this.ModeTab('专注', TimerMode.WORK)
+          this.ModeTab('短休', TimerMode.SHORT_BREAK)
+          this.ModeTab('长休', TimerMode.LONG_BREAK)
         }
-        .margin({ top: 20 })
 
-        // 主计时器圆环
+        // 进度圆环 + 时间
         TimerCircle({
           progress: this.pomodoro.progress,
           remainingSeconds: this.pomodoro.remainingSeconds,
           state: this.pomodoro.state,
-          modeLabel: this.pomodoro.modeLabel
+          modeLabel: this.getModeLabel()
         })
-          .margin({ top: 16 })
 
         // 控制按钮
         TimerControls({
@@ -45,24 +47,22 @@ struct Index {
           onPause: () => this.handlePause(),
           onReset: () => this.handleReset()
         })
-          .margin({ top: 16 })
 
         // 会话信息
         SessionInfo({
           completedSessions: this.pomodoro.completedSessions,
           currentSession: this.pomodoro.currentSession
         })
-          .margin({ top: 16 })
       }
       .width('100%')
       .padding({
-        top: 48,
-        bottom: 48,
-        left: 24,
-        right: 24
+        top: this.getSafeTop(),
+        bottom: this.getSafeBottom(),
+        left: 28,
+        right: 28
       })
       .backgroundColor('#000000')
-      .justifyContent(FlexAlign.Start)
+      .justifyContent(FlexAlign.SpaceBetween)
       .alignItems(HorizontalAlign.Center)
     }
     .width('100%')
@@ -72,18 +72,37 @@ struct Index {
   }
 
   @Builder
-  ModeButton(label: string, mode: TimerMode) {
-    Button(label)
-      .fontSize(12)
-      .fontColor(this.pomodoro.mode === mode ? '#FFFFFF' : '#77FFFFFF')
-      .backgroundColor(this.pomodoro.mode === mode ? '#FF6B6B' : '#22FFFFFF')
-      .borderRadius(12)
-      .height(28)
+  ModeTab(label: string, mode: TimerMode) {
+    Text(label)
+      .fontSize(13)
+      .fontColor(this.pomodoro.mode === mode ? '#FF6B6B' : '#8E8E93')
+      .fontWeight(this.pomodoro.mode === mode ? FontWeight.Medium : FontWeight.Normal)
+      .padding({ left: 14, right: 14, top: 6, bottom: 6 })
+      .backgroundColor(this.pomodoro.mode === mode ? '#2C1A1A' : 'transparent')
+      .borderRadius(16)
       .onClick(() => {
         this.clearTimer()
         this.pomodoro.switchToMode(mode)
         this.startTimer()
       })
+  }
+
+  private getSafeTop(): number {
+    const r = this.screenWidth / 2
+    return Math.round(r - Math.sqrt(Math.max(r * r - (r - 28) * (r - 28), 0))) + 16
+  }
+
+  private getSafeBottom(): number {
+    return this.getSafeTop()
+  }
+
+  private getModeLabel(): string {
+    switch (this.pomodoro.mode) {
+      case TimerMode.WORK: return '专注'
+      case TimerMode.SHORT_BREAK: return '短休息'
+      case TimerMode.LONG_BREAK: return '长休息'
+      default: return '专注'
+    }
   }
 
   private startTimer(): void {
@@ -121,10 +140,7 @@ struct Index {
 
   private vibrateWatch(): void {
     try {
-      vibrator.startVibration({
-        type: 'time',
-        duration: 500
-      }, { id: 0, usage: 'alarm' })
+      vibrator.startVibration({ type: 'time', duration: 500 }, { id: 0, usage: 'alarm' })
     } catch (e) {
       console.log('vibration not supported')
     }
