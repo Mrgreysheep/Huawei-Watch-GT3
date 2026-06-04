@@ -1,11 +1,11 @@
 import { TimerPage } from '../components/TimerPage'
-import { TimerMode } from '../model/PomodoroState'
+import { PomodoroModel, TimerMode } from '../model/PomodoroState'
 
 @Entry
 @Component
 struct Index {
   build() {
-    Tabs({ barPosition: BarPosition.Hidden }) {
+    Tabs() {
       TabContent() {
         TimerPage({ pomodoro: new PomodoroModel(TimerMode.WORK) })
       }
@@ -24,7 +24,6 @@ struct Index {
     .scrollable(true)
     .barWidth(0)
     .barHeight(0)
-    .onChange((index: number) => {})
     .width('100%')
     .height('100%')
     .backgroundColor('#000000')
