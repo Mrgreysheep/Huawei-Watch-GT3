@@ -1,0 +1,26 @@
+# HarmonyOS build outputs
+/build/
+/entry/build/
+/.preview/
+/entry/.preview/
+/.previewer/
+
+# Dependencies
+/oh_modules/
+/node_modules/
+/oh-package-lock.json5
+
+# Local config
+/local.properties
+
+# IDE
+/.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# hvigor
+/.hvigor/
+/hvigor/

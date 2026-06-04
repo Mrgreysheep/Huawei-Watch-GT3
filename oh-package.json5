@@ -1,0 +1,13 @@
+{
+  "modelVersion": "6.1.1",
+  "name": "pomodoro-timer",
+  "version": "1.0.0",
+  "description": "番茄时钟手表应用",
+  "main": "",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hypium": "1.0.18"
+  }
+}
