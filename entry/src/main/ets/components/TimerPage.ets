@@ -13,10 +13,10 @@ export struct TimerPage {
   build() {
     Column() {
       // 上半部：标签 + 进度环
-      Column({ space: 20 }) {
+      Column({ space: 14 }) {
         // 模式名称
         Text(this.getModeName())
-          .fontSize(16)
+          .fontSize(15)
           .fontColor(this.getModeColor())
           .fontWeight(FontWeight.Medium)
           .letterSpacing(2)
@@ -24,33 +24,34 @@ export struct TimerPage {
         // 进度环 + 时间
         Stack() {
           Progress({ value: 100, total: 100, type: ProgressType.Ring })
-            .width(190)
-            .height(190)
-            .style({ strokeWidth: 8 })
+            .width(160)
+            .height(160)
+            .style({ strokeWidth: 7 })
             .color('#1C1C1E')
 
           Progress({ value: this.pomodoro.progress * 100, total: 100, type: ProgressType.Ring })
-            .width(190)
-            .height(190)
-            .style({ strokeWidth: 8 })
+            .width(160)
+            .height(160)
+            .style({ strokeWidth: 7 })
             .color(this.getModeColor())
 
-          Column({ space: 4 }) {
+          Column({ space: 2 }) {
             Text(this.pomodoro.formattedTime)
-              .fontSize(52)
+              .fontSize(48)
               .fontColor('#FFFFFF')
               .fontWeight(FontWeight.Bold)
               .fontFamily('HarmonyOS Sans')
 
             Text(this.getStateLabel())
-              .fontSize(13)
+              .fontSize(12)
               .fontColor('#8E8E93')
+              .margin({ top: 2 })
           }
           .justifyContent(FlexAlign.Center)
           .alignItems(HorizontalAlign.Center)
         }
-        .width(190)
-        .height(190)
+        .width(160)
+        .height(160)
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.Center)
@@ -65,32 +66,32 @@ export struct TimerPage {
             .fontColor('#636366')
         }
         .type(ButtonType.Circle)
-          .width(48)
-          .height(48)
+          .width(44)
+          .height(44)
           .backgroundColor('#1C1C1E')
-          .borderRadius(24)
+          .borderRadius(22)
           .onClick(() => this.handleReset())
 
         // 开始/暂停
         Button() {
           Text(this.pomodoro.isRunning ? '' : '')
-            .fontSize(26)
+            .fontSize(24)
             .fontColor('#FFFFFF')
             .fontWeight(FontWeight.Bold)
         }
         .type(ButtonType.Circle)
-          .width(64)
-          .height(64)
+          .width(56)
+          .height(56)
           .backgroundColor(this.pomodoro.isRunning ? '#FF6B6B' : '#30D158')
-          .borderRadius(32)
+          .borderRadius(28)
           .onClick(() => this.handleToggle())
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(VerticalAlign.Center)
-      .padding({ bottom: 24 })
     }
     .width('100%')
     .height('100%')
+    .padding({ top: 48, bottom: 42, left: 28, right: 28 })
   }
 
   private getModeName(): string {
