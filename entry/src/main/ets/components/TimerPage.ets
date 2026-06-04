@@ -26,23 +26,15 @@ export struct TimerPage {
         .fontColor('#FFFFFF')
         .fontWeight(FontWeight.Bold)
         .fontFamily('HarmonyOS Sans')
-        .expand()
+        .layoutWeight(1)
 
       // 底部按钮
       Row({ space: 20 }) {
         // 重置按钮
         Button() {
-          Stack() {
-            Arc({ start: 30, end: 330 })
-              .width(22)
-              .height(22)
-              .strokeWidth(2.5)
-              .fill(false)
-              .stroke('#8E8E93')
-              .strokeLineCap(LineCapStyle.Round)
-          }
-          .width(22)
-          .height(22)
+          Text('↻')
+            .fontSize(22)
+            .fontColor('#8E8E93')
         }
         .type(ButtonType.Circle)
           .width(44)
