@@ -1,4 +1,4 @@
-import { PomodoroModel, TimerMode, TimerState } from '../model/PomodoroState'
+import { PomodoroModel, TimerMode } from '../model/PomodoroState'
 import vibrator from '@ohos.vibrator'
 
 @Component
@@ -20,7 +20,7 @@ export struct TimerPage {
         .letterSpacing(2)
         .margin({ top: 8 })
 
-      // 时间显示（居中）
+      // 时间显示
       Text(this.pomodoro.formattedTime)
         .fontSize(64)
         .fontColor('#FFFFFF')
@@ -29,12 +29,6 @@ export struct TimerPage {
         .layoutWeight(1)
         .textAlign(TextAlign.Center)
         .width('100%')
-
-      // 状态文字
-      Text(this.getStateLabel())
-        .fontSize(13)
-        .fontColor('#8E8E93')
-        .margin({ bottom: 20 })
 
       // 控制按钮
       Row({ space: 24 }) {
@@ -78,17 +72,6 @@ export struct TimerPage {
       case TimerMode.SHORT_BREAK: return '短休息'
       case TimerMode.LONG_BREAK: return '长休息'
       default: return '专注'
-    }
-  }
-
-  private getStateLabel(): string {
-    switch (this.pomodoro.state) {
-      case TimerState.IDLE: return '准备开始'
-      case TimerState.WORKING: return '专注中'
-      case TimerState.SHORT_BREAK: return '休息中'
-      case TimerState.LONG_BREAK: return '休息中'
-      case TimerState.PAUSED: return '已暂停'
-      default: return ''
     }
   }
 
