@@ -3,18 +3,14 @@ import { TimerCircle } from '../components/TimerCircle'
 import { TimerControls } from '../components/TimerControls'
 import { SessionInfo } from '../components/SessionInfo'
 import vibrator from '@ohos.vibrator'
-import { display } from '@kit.BasicServicesKit'
 
 @Entry
 @Component
 struct Index {
   @State pomodoro: PomodoroModel = new PomodoroModel()
-  @State screenWidth: number = 0
   private timerInterval: number = -1
 
   aboutToAppear(): void {
-    const displayClass = display.getDefaultDisplaySync()
-    this.screenWidth = displayClass.width
     this.startTimer()
   }
 
@@ -55,12 +51,7 @@ struct Index {
         })
       }
       .width('100%')
-      .padding({
-        top: this.getSafeTop(),
-        bottom: this.getSafeBottom(),
-        left: 28,
-        right: 28
-      })
+      .padding({ top: 50, bottom: 50, left: 28, right: 28 })
       .backgroundColor('#000000')
       .justifyContent(FlexAlign.SpaceBetween)
       .alignItems(HorizontalAlign.Center)
@@ -85,15 +76,6 @@ struct Index {
         this.pomodoro.switchToMode(mode)
         this.startTimer()
       })
-  }
-
-  private getSafeTop(): number {
-    const r = this.screenWidth / 2
-    return Math.round(r - Math.sqrt(Math.max(r * r - (r - 28) * (r - 28), 0))) + 16
-  }
-
-  private getSafeBottom(): number {
-    return this.getSafeTop()
   }
 
   private getModeLabel(): string {

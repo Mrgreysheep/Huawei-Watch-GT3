@@ -7,7 +7,7 @@ export struct TimerCircle {
   @Prop state: TimerState = TimerState.IDLE
   @Prop modeLabel: string = '专注'
 
-  private readonly size: number = 220
+  private readonly circleSize: number = 220
   private readonly strokeWidth: number = 10
   private readonly bgStrokeWidth: number = 10
 
@@ -15,15 +15,15 @@ export struct TimerCircle {
     Stack() {
       // 外层底环
       Progress({ value: 100, total: 100, type: ProgressType.Ring })
-        .width(this.size)
-        .height(this.size)
+        .width(this.circleSize)
+        .height(this.circleSize)
         .style({ strokeWidth: this.bgStrokeWidth })
         .color('#1C1C1E')
 
       // 进度弧
       Progress({ value: this.progress * 100, total: 100, type: ProgressType.Ring })
-        .width(this.size)
-        .height(this.size)
+        .width(this.circleSize)
+        .height(this.circleSize)
         .style({ strokeWidth: this.strokeWidth })
         .color(this.getActiveColor())
 
@@ -44,8 +44,8 @@ export struct TimerCircle {
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.Center)
     }
-    .width(this.size)
-    .height(this.size)
+    .width(this.circleSize)
+    .height(this.circleSize)
   }
 
   private getFormattedTime(): string {
