@@ -12,38 +12,16 @@ export enum TimerMode {
   LONG_BREAK = 2
 }
 
-interface TimerConfig {
-  WORK_DURATION: number
-  SHORT_BREAK_DURATION: number
-  LONG_BREAK_DURATION: number
-  SESSIONS_BEFORE_LONG_BREAK: number
-}
-
-export const TIMER_CONFIG: TimerConfig = {
-  WORK_DURATION: 25 * 60,
-  SHORT_BREAK_DURATION: 5 * 60,
-  LONG_BREAK_DURATION: 15 * 60,
-  SESSIONS_BEFORE_LONG_BREAK: 4,
-}
-
 export class PomodoroModel {
   state: TimerState = TimerState.IDLE
   mode: TimerMode = TimerMode.WORK
-  remainingSeconds: number = TIMER_CONFIG.WORK_DURATION
-  totalSeconds: number = TIMER_CONFIG.WORK_DURATION
-  completedSessions: number = 0
-  currentSession: number = 0
+  remainingSeconds: number = 25 * 60
+  totalSeconds: number = 25 * 60
 
-  constructor() {
-    this.reset()
-  }
-
-  reset(): void {
-    this.state = TimerState.IDLE
-    this.mode = TimerMode.WORK
-    this.remainingSeconds = TIMER_CONFIG.WORK_DURATION
-    this.totalSeconds = TIMER_CONFIG.WORK_DURATION
-    this.currentSession = 0
+  constructor(mode: TimerMode = TimerMode.WORK) {
+    this.mode = mode
+    this.totalSeconds = this.getDuration(mode)
+    this.remainingSeconds = this.totalSeconds
   }
 
   start(): void {
@@ -57,7 +35,14 @@ export class PomodoroModel {
   }
 
   pause(): void {
-    this.state = TimerState.PAUSED
+    if (this.state !== TimerState.IDLE) {
+      this.state = TimerState.PAUSED
+    }
+  }
+
+  reset(): void {
+    this.state = TimerState.IDLE
+    this.remainingSeconds = this.totalSeconds
   }
 
   tick(): boolean {
@@ -66,44 +51,18 @@ export class PomodoroModel {
       this.state === TimerState.LONG_BREAK) {
       this.remainingSeconds--
       if (this.remainingSeconds <= 0) {
-        this.onTimerComplete()
+        this.remainingSeconds = 0
+        this.state = TimerState.IDLE
         return true
       }
     }
     return false
   }
 
-  private onTimerComplete(): void {
-    if (this.state === TimerState.WORKING) {
-      this.completedSessions++
-      this.currentSession++
-      if (this.currentSession % TIMER_CONFIG.SESSIONS_BEFORE_LONG_BREAK === 0) {
-        this.switchToMode(TimerMode.LONG_BREAK)
-      } else {
-        this.switchToMode(TimerMode.SHORT_BREAK)
-      }
-    } else {
-      this.switchToMode(TimerMode.WORK)
-    }
-  }
-
-  switchToMode(mode: TimerMode): void {
-    this.mode = mode
-    this.state = TimerState.IDLE
-    switch (mode) {
-      case TimerMode.WORK:
-        this.totalSeconds = TIMER_CONFIG.WORK_DURATION
-        this.remainingSeconds = TIMER_CONFIG.WORK_DURATION
-        break
-      case TimerMode.SHORT_BREAK:
-        this.totalSeconds = TIMER_CONFIG.SHORT_BREAK_DURATION
-        this.remainingSeconds = TIMER_CONFIG.SHORT_BREAK_DURATION
-        break
-      case TimerMode.LONG_BREAK:
-        this.totalSeconds = TIMER_CONFIG.LONG_BREAK_DURATION
-        this.remainingSeconds = TIMER_CONFIG.LONG_BREAK_DURATION
-        break
-    }
+  get isRunning(): boolean {
+    return this.state === TimerState.WORKING ||
+      this.state === TimerState.SHORT_BREAK ||
+      this.state === TimerState.LONG_BREAK
   }
 
   get progress(): number {
@@ -112,16 +71,16 @@ export class PomodoroModel {
   }
 
   get formattedTime(): string {
-    const minutes = Math.floor(this.remainingSeconds / 60)
-    const seconds = this.remainingSeconds % 60
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`
+    const min = Math.floor(this.remainingSeconds / 60)
+    const sec = this.remainingSeconds % 60
+    return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
   }
 
-  get modeLabel(): string {
-    switch (this.mode) {
-      case TimerMode.WORK: return '专注'
-      case TimerMode.SHORT_BREAK: return '短休息'
-      case TimerMode.LONG_BREAK: return '长休息'
+  private getDuration(mode: TimerMode): number {
+    switch (mode) {
+      case TimerMode.WORK: return 25 * 60
+      case TimerMode.SHORT_BREAK: return 5 * 60
+      case TimerMode.LONG_BREAK: return 15 * 60
     }
   }
 }
