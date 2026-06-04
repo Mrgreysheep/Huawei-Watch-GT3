@@ -12,54 +12,32 @@ export struct TimerPage {
 
   build() {
     Column() {
-      // 上半部：标签 + 进度环
-      Column({ space: 14 }) {
-        // 模式名称
-        Text(this.getModeName())
-          .fontSize(15)
-          .fontColor(this.getModeColor())
-          .fontWeight(FontWeight.Medium)
-          .letterSpacing(2)
+      // 模式名称
+      Text(this.getModeName())
+        .fontSize(15)
+        .fontColor(this.getModeColor())
+        .fontWeight(FontWeight.Medium)
+        .letterSpacing(2)
+        .margin({ top: 8 })
 
-        // 进度环 + 时间
-        Stack() {
-          Progress({ value: 100, total: 100, type: ProgressType.Ring })
-            .width(160)
-            .height(160)
-            .style({ strokeWidth: 7 })
-            .color('#1C1C1E')
+      // 时间显示（居中）
+      Text(this.pomodoro.formattedTime)
+        .fontSize(64)
+        .fontColor('#FFFFFF')
+        .fontWeight(FontWeight.Bold)
+        .fontFamily('HarmonyOS Sans')
+        .layoutWeight(1)
+        .textAlign(TextAlign.Center)
+        .width('100%')
 
-          Progress({ value: this.pomodoro.progress * 100, total: 100, type: ProgressType.Ring })
-            .width(160)
-            .height(160)
-            .style({ strokeWidth: 7 })
-            .color(this.getModeColor())
+      // 状态文字
+      Text(this.getStateLabel())
+        .fontSize(13)
+        .fontColor('#8E8E93')
+        .margin({ bottom: 20 })
 
-          Column({ space: 2 }) {
-            Text(this.pomodoro.formattedTime)
-              .fontSize(48)
-              .fontColor('#FFFFFF')
-              .fontWeight(FontWeight.Bold)
-              .fontFamily('HarmonyOS Sans')
-
-            Text(this.getStateLabel())
-              .fontSize(12)
-              .fontColor('#8E8E93')
-              .margin({ top: 2 })
-          }
-          .justifyContent(FlexAlign.Center)
-          .alignItems(HorizontalAlign.Center)
-        }
-        .width(160)
-        .height(160)
-      }
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
-      .layoutWeight(1)
-
-      // 底部控制栏
+      // 控制按钮
       Row({ space: 24 }) {
-        // 重置
         Button() {
           Text('')
             .fontSize(18)
@@ -72,7 +50,6 @@ export struct TimerPage {
           .borderRadius(22)
           .onClick(() => this.handleReset())
 
-        // 开始/暂停
         Button() {
           Text(this.pomodoro.isRunning ? '' : '')
             .fontSize(24)
@@ -88,6 +65,7 @@ export struct TimerPage {
       }
       .justifyContent(FlexAlign.Center)
       .alignItems(VerticalAlign.Center)
+      .margin({ bottom: 8 })
     }
     .width('100%')
     .height('100%')
