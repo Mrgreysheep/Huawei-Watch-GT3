@@ -46,23 +46,22 @@ export struct TimerPage {
         // 播放/暂停按钮
         Button() {
           if (this.pomodoro.isRunning) {
-            Row({ space: 5 })
-              .width(18)
-              .height(20)
-              .justifyContent(FlexAlign.Center)
-              .alignItems(VerticalAlign.Center)
-              .children() {
-                Rect()
-                  .width(4)
-                  .height(18)
-                  .fill('#FFFFFF')
-                  .borderRadius(2)
-                Rect()
-                  .width(4)
-                  .height(18)
-                  .fill('#FFFFFF')
-                  .borderRadius(2)
-              }
+            Row({ space: 5 }) {
+              Rect()
+                .width(4)
+                .height(18)
+                .fill('#FFFFFF')
+                .borderRadius(2)
+              Rect()
+                .width(4)
+                .height(18)
+                .fill('#FFFFFF')
+                .borderRadius(2)
+            }
+            .width(18)
+            .height(20)
+            .justifyContent(FlexAlign.Center)
+            .alignItems(VerticalAlign.Center)
           } else {
             Polygon()
               .width(20)
