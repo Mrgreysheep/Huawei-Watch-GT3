@@ -1,24 +1,10 @@
 {
   "app": {
-    "signingConfigs": [
-      {
-        "name": "release",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "C:\\Users\\24694\\Desktop\\watch.cer",
-          "storePassword": "watch1234567890abcdef1234567890ab",
-          "keyAlias": "watch",
-          "keyPassword": "watch1234567890abcdef1234567890ab",
-          "profile": "C:\\Users\\24694\\Desktop\\fanqieRelease.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\24694\\Desktop\\watch.p12"
-        }
-      }
-    ],
+    "signingConfigs": [],
     "products": [
       {
         "name": "default",
-        "signingConfig": "release",
+        "signingConfig": "default",
         "compatibleSdkVersion": "5.0.0(12)",
         "runtimeOS": "HarmonyOS",
         "targetSdkVersion": "5.0.0(12)"
