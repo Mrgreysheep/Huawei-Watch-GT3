@@ -5,10 +5,10 @@
         "name": "release",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\24694\\Desktop\\watch1.cer",
-          "storePassword": "qwer1234",
+          "certpath": "C:\\Users\\24694\\Desktop\\watch.cer",
+          "storePassword": "watch1234567890abcdef1234567890ab",
           "keyAlias": "watch",
-          "keyPassword": "qwer1234",
+          "keyPassword": "watch1234567890abcdef1234567890ab",
           "profile": "C:\\Users\\24694\\Desktop\\fanqieRelease.p7b",
           "signAlg": "SHA256withECDSA",
           "storeFile": "C:\\Users\\24694\\Desktop\\watch.p12"
